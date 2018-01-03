@@ -46,7 +46,7 @@ bot.dialog('/', function (session) {
 
 });
 
-bot.dialog('/greeting', [
+bot.dialog('greeting', [
     function (session) {
         // Send a greeting and show help.
         var card = new builder.HeroCard(session)
