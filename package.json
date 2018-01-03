@@ -4,7 +4,8 @@
   "description": "An CMU chat bot provides real-time interaction via Facebook Messenger Platform",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "node index.js"
   },
   "author": "Watchanan Chantapakul",
   "license": "ISC",
