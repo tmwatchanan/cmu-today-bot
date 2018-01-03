@@ -20,6 +20,21 @@ var bot = new builder.UniversalBot(connector);
 
 // If a Post request is made to /api/messages on port 3978 of our local server, then we pass it to the bot connector to handle
 server.post('/api/messages', connector.listen());
+
+//=========================================================
+// Bots Middleware
+//=========================================================
+
+// Anytime the major version is incremented any existing conversations will be restarted.
+bot.set(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
+
+//=========================================================
+// Bots Global Actions
+//=========================================================
+
+bot.endConversationAction('goodbye', 'Goodbye :)', { matches: /^goodbye/i });
+bot.beginDialogAction('help', '/help', { matches: /^help/i });
+
 // =========================================================
 // Bots Dialogs 
 // =========================================================
