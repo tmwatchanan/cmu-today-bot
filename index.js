@@ -4,6 +4,7 @@
 const
     express = require('express'),
     bodyParser = require('body-parser'),
+    request = require('request'),
     app = express().use(bodyParser.json()).use(bodyParser.urlencoded()); // creates express http server
 
 // Sets server port and logs message on success
