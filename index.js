@@ -26,9 +26,9 @@ app.post('/webhook', (req, res) => {
             let webhook_event = entry.messaging[0];
             console.log(webhook_event);
 
-            let sender = event.sender.id
-            if (event.message && event.message.text) {
-                let text = event.message.text
+            let sender = webhook_event.sender.id
+            if (webhook_event.message && webhook_event.message.text) {
+                let text = webhook_event.message.text
                 sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
             }
         });
