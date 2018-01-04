@@ -7,7 +7,9 @@ const
     app = express().use(bodyParser.json()).use(bodyParser.urlencoded()); // creates express http server
 
 // Sets server port and logs message on success
-app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
+app.listen(process.env.PORT || 1337, () => console.log('webhook is listening on port', app.get('port')));
+
+const token = process.env.FB_PAGE_ACCESS_TOKEN;
 
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {
@@ -23,6 +25,12 @@ app.post('/webhook', (req, res) => {
             // will only ever contain one message, so we get index 0
             let webhook_event = entry.messaging[0];
             console.log(webhook_event);
+
+            let sender = event.sender.id
+            if (event.message && event.message.text) {
+                let text = event.message.text
+                sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+            }
         });
 
         // Returns a '200 OK' response to all requests
@@ -60,3 +68,22 @@ app.get('/webhook', (req, res) => {
         }
     }
 });
+
+function sendTextMessage(sender, text) {
+    let messageData = { text: text }
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: { access_token: token },
+        method: 'POST',
+        json: {
+            recipient: { id: sender },
+            message: messageData,
+        }
+    }, function (error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
+}
